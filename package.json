@@ -1,0 +1,33 @@
+{
+  "name": "user-reset-password",
+  "version": "1.0.0",
+  "description": "reset signup user feature",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-start": "babel-node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jonathan4github/user-reset-password.git"
+  },
+  "keywords": [
+    "reset",
+    "password"
+  ],
+  "author": "Jonathan Williams",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jonathan4github/user-reset-password/issues"
+  },
+  "homepage": "https://github.com/Jonathan4github/user-reset-password#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.3"
+  }
+}
