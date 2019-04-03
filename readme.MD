@@ -1,2 +1,2 @@
-# User reset password feature
-A simple user feature that allows a user to reset their password after signup or forgot password.
+# User email confirmation, reset or recovering password feature
+A simple user feature that confirm user email, to avoid theft of identity, allows a user to reset, or recover password after signup.
