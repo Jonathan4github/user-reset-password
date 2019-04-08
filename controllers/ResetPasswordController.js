@@ -1,5 +1,6 @@
 import db from '../models/db';
 import randomstring from 'randomstring';
+import moment from 'moment';
 import nodemailer from 'nodemailer';
 
 
@@ -34,14 +35,26 @@ class ResetPasswordController {
         if (error) {
           throw error;
         } else {
-          res.status(200).json({
-            status: 200,
-            data: 'Kindly check your email for further instructions'
+          const sql = 'UPDATE users SET token = $1,  modified_date = $2  WHERE email = $3';
+          const params = [token, moment(new Date()), email];
+          db.query(sql, params, (err, result) => {
+            if (err) {
+              return res.status(500).json({
+                status: 500,
+                message: err.message
+              });
+            }
+            return res.status(200).json({
+              status: 200,
+              data: 'Kindly check your email for further instructions'
+            });
           });
         }
       });
     });
   }
+
+
 }
 
 export default new ResetPasswordController();
