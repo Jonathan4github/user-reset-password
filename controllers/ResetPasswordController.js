@@ -5,6 +5,13 @@ import nodemailer from 'nodemailer';
 
 
 class ResetPasswordController {
+  /**
+   * Method for sending token to user email
+   * @static
+   * @param {request} req
+   * @param {response} res
+   * @return {obj} return json object.
+   */
   forgotPassword(req, res) {
     const { email } = req.body;
     const token = randomstring.generate();
@@ -52,6 +59,10 @@ class ResetPasswordController {
         }
       });
     });
+  }
+
+  confirmToken(req, res) {
+
   }
 
 

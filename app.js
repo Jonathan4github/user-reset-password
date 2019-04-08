@@ -15,5 +15,12 @@ app.get('/', (req, res) => {
   })
 });
 
+app.use('*', (req, res) => {
+  res.status(404).json({
+    status: 404,
+    message: 'Page not found'
+  });
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}`));

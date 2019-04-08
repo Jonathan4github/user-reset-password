@@ -7,7 +7,7 @@ class AuthValidator {
     const { firstName, lastName, email, password } = req.body,
       errorMessage = {};
 
-    if (firstName === undefined || lastName === undefined || password === undefined) {
+    if (firstName === undefined || lastName === undefined || email === undefined || password === undefined) {
       return res.status(400).json({
         status: 400,
         error: 'All or some of the field is/are undefined'
@@ -45,6 +45,29 @@ class AuthValidator {
       }
       return next();
     });
+  }
+
+  Signin(req, res, next) {
+    const { email, password } = req.body,
+      errorMessage = {};
+
+    if (email === undefined || password === undefined) {
+      return res.status(400).json({
+        status: 400,
+        error: 'All or some of the field is/are undefined'
+      });
+    }
+
+    if (!Helper.isValidEmail(email)) {
+      errorMessage.email = 'Please enter a valid email';
+    }
+    if (!validator.isLength(password, { min: 7, max: 20 })) {
+      errorMessage.password = 'password must not be less than 7 or above 20 characters';
+    }
+    if (!(Object.keys(errorMessage).length === 0)) {
+      return res.status(400).json(errorMessage);
+    }
+    return next();
   }
 }
 
