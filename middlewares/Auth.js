@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import userData from '../models/User';
+import db from '../models/db';
 
 const Auth = {
   /**
@@ -21,16 +21,21 @@ const Auth = {
           })
       }
 
-
-      let user = userData.find(x => x.id === decoded.userId);
-      if (user == undefined) {
-        return res.status(403).json({
-          status: 403,
-          error: 'The token provided is invalid'
-        })
-      }
-      req.user = { id: decoded.userId };
-      next();
+      const text = 'SELECT * FROM users WHERE id = $1';
+      db.query(text, [decoded.userId]).then((user) => {
+        if (!user.rows[0]) {
+          return res.status(403)
+            .json({
+              status: 403,
+              error: 'The token provided is invalid'
+            });
+        }
+        req.user = { id: decoded.userId };
+        next();
+      }).catch(err => res.status(403).json({
+        status: 'Failed',
+        message: err.message
+      }));
     });
   }
 }

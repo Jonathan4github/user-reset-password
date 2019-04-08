@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 const dotenv = require('dotenv');
-const configuration = require('./server/config/config');
+const configuration = require('./config/config');
 
 const env = process.env.Node_ENV || 'development';
 const config = configuration[env];
@@ -17,45 +17,32 @@ db.on('connect', () => {
 });
 
 /**
- * Create Entry Table
+ * Create Signup Table
  */
-const createTables = () => {
+const createTable = () => {
   const query = ` 
-  DROP TABLE IF EXISTS users CASCADE;
-  DROP TABLE IF EXISTS entries CASCADE;
+  DROP TABLE IF EXISTS users;
   
   CREATE TABLE IF NOT EXISTS users(
   
     id serial PRIMARY KEY,
   
-    fullname VARCHAR(150) NOT NULL,
+    firstName VARCHAR(150) NOT NULL,
+
+    lastName VARCHAR(150) NOT NULL,
   
     email VARCHAR(255) UNIQUE NOT NULL,
   
     password VARCHAR(255) NOT NULL,
     
-    reminder INTEGER  DEFAULT  0,
-    
-    image VARCHAR(255) DEFAULT 'https://via.placeholder.com/150',
-    
-    created_date TIMESTAMP,
-    
-    modified_date TIMESTAMP
-  );
-  CREATE TABLE IF NOT EXISTS entries(
-    id serial PRIMARY KEY,
-  
-    title VARCHAR(255) NOT NULL,
-  
-    entry TEXT NOT NULL,
+    token VARCHAR(255) DEFAULT NULL,
 
-    userId int REFERENCES users(id) ON DELETE CASCADE,    
-  
+    isVerified BOOLEAN DEFAULT FALSE,
+    
     created_date TIMESTAMP,
     
     modified_date TIMESTAMP
-    
-     )`;
+  );`
 
   db.query(query, (err) => {
     if (err) {
@@ -66,7 +53,7 @@ const createTables = () => {
 };
 
 module.exports = {
-  createTables
+  createTable
 };
 
 require('make-runnable');
